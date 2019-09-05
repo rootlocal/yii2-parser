@@ -9,11 +9,13 @@
     "HtmlPurifier",
     "Parsedown"
   ],
+  "homepage": "http://rootlocal.ru",
   "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Alexander Zakharov",
-      "email": "sys@eml.ru"
+      "email": "sys@eml.ru",
+      "role": "Developer"
     }
   ],
   "require": {
