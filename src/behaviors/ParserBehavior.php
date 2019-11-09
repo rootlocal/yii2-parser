@@ -20,6 +20,7 @@ use yii\db\BaseActiveRecord;
  *               'class' => ParserBehavior::class,
  *               'srcAtAttribute' => 'content',
  *               'dstAtAttribute' => 'content_html',
+ *               'templateConfig' => 'filterAll',
  *           ],
  *       ];
  *   }
@@ -60,6 +61,12 @@ class ParserBehavior extends AttributeBehavior
      * @var HTMLPurifier_Config
      */
     private $_htmlPurifierConfig;
+
+    /**
+     * @var string
+     * @example  default filterAll
+     */
+    public $templateConfig = 'default';
 
     /**
      * {@inheritdoc}
@@ -161,7 +168,12 @@ class ParserBehavior extends AttributeBehavior
     public function getHtmlPurifierConfig()
     {
         if (empty($this->_htmlPurifierConfig)) {
-            $this->_htmlPurifierConfig = HTMLPurifier_Config::getInstance()->getDefaultConfig();
+            $config = HTMLPurifier_Config::getInstance();
+
+            if ($this->templateConfig === 'default' || empty($this->templateConfig))
+                $this->_htmlPurifierConfig = $config->getDefaultConfig();
+            if ($this->templateConfig === 'filterAll')
+                $this->_htmlPurifierConfig = $config->getFilterAllConfig();
         }
 
         return $this->_htmlPurifierConfig;

@@ -13,8 +13,8 @@ class Parsedown extends \Parsedown
 
     function __construct()
     {
-        $this->InlineTypes['{'][] = 'ColoredText';
-        $this->inlineMarkerList .= '{';
+        //$this->InlineTypes['{'][] = 'ColoredText';
+        //$this->inlineMarkerList .= '{';
     }
 
     /**
@@ -26,7 +26,7 @@ class Parsedown extends \Parsedown
      * @param $excerpt
      * @return array
      */
-    protected function inlineColoredText($excerpt)
+   /* protected function inlineColoredText($excerpt)
     {
         if (preg_match('/^{c:([#\w]\w+)}(.*?){\/c}/', $excerpt['text'], $matches)) {
             return array(
@@ -46,7 +46,7 @@ class Parsedown extends \Parsedown
         }
 
         return $excerpt;
-    }
+    }*/
 
 
     /**
