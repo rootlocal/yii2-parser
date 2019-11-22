@@ -180,6 +180,14 @@ class ParserBehavior extends AttributeBehavior
     }
 
     /**
+     * @param HTMLPurifier_Config $config
+     */
+    public function setHtmlPurifierConfig(HTMLPurifier_Config $config)
+    {
+        $this->_htmlPurifierConfig = $config;
+    }
+
+    /**
      * @param $text string
      * @return string
      */
