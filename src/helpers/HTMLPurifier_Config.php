@@ -12,10 +12,10 @@ use HTMLPurifier_PropertyList;
  *
  * @property HTMLPurifier_Config $instance
  */
-class HTMLPurifier_Config extends \HTMLPurifier_Config
+class HTMLPurifier_Config extends \HTMLPurifier_HTML5Config implements HTMLPurifier_ConfigInterface
 {
     /**
-     * @var HTMLPurifier_Config
+     * @var self
      */
     private static $_instance;
 
@@ -35,14 +35,20 @@ class HTMLPurifier_Config extends \HTMLPurifier_Config
     }
 
     /**
+     * @return \HTMLPurifier_HTML5Config
+     */
+    public static function createDefault()
+    {
+        return parent::createDefault();
+    }
+
+    /**
      * @return \HTMLPurifier_Config
-     * Дефолтный конфиг
      */
     public function getDefaultConfig()
     {
         $this->set('HTML.Doctype', 'HTML 4.01 Transitional');
         //$this->set('Cache.DefinitionImpl', null);
-        $this->set('Cache.SerializerPath', Yii::$app->getRuntimePath());
         $this->set('HTML.ForbiddenElements', ["iframe", "pre"]); // "script"
         $this->set('AutoFormat.AutoParagraph', false);
         $this->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
@@ -62,7 +68,6 @@ class HTMLPurifier_Config extends \HTMLPurifier_Config
 
     /**
      * @return \HTMLPurifier_Config
-     * Конфиг с строгой фильтрацией контента
      */
     public function getFilterAllConfig()
     {

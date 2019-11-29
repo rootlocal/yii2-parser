@@ -24,13 +24,12 @@
     "yii2mod/yii2-markdown": "*",
     "cebe/markdown": "~1.1.0",
     "whichbrowser/parser": "^2.0",
-    "erusev/parsedown": "^1.7"
+    "erusev/parsedown": "^1.7",
+    "xemlock/htmlpurifier-html5": "^0.1.11"
   },
   "require-dev": {
     "yiisoft/yii2-codeception": "~2.0",
-    "codeclimate/php-test-reporter": "^0.4.4",
-    "symfony/var-dumper": "^3.4",
-    "emagister/selenium-server": "^2.52"
+    "codeclimate/php-test-reporter": "^0.4.4"
   },
   "autoload": {
     "psr-4": {

@@ -7,6 +7,8 @@ use rootlocal\parser\helpers\Parsedown;
 use rootlocal\parser\helpers\HtmlPurifier;
 use rootlocal\parser\helpers\HTMLPurifier_Config;
 use yii\db\BaseActiveRecord;
+use rootlocal\parser\helpers\HTMLPurifier_ConfigInterface;
+use yii\di\Instance;
 
 /**
  * Class ParserBehavior
@@ -182,7 +184,7 @@ class ParserBehavior extends AttributeBehavior
     /**
      * @param HTMLPurifier_Config $config
      */
-    public function setHtmlPurifierConfig(HTMLPurifier_Config $config)
+    public function setHtmlPurifierConfig($config)
     {
         $this->_htmlPurifierConfig = $config;
     }
