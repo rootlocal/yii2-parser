@@ -5,17 +5,20 @@ namespace rootlocal\parser\helpers;
 
 /**
  * Class Parsedown
+ *
+ * @link https://github.com/erusev/parsedown/wiki/Tutorial:-Create-Extensions#add-inline-element
+ *
+ * @author Alexander Zakharov <sys@eml.ru>
  * @package rootlocal\parser\helpers
- * https://github.com/erusev/parsedown/wiki/Tutorial:-Create-Extensions#add-inline-element
  */
 class Parsedown extends \Parsedown
 {
 
-    function __construct()
+   /* function __construct()
     {
         //$this->InlineTypes['{'][] = 'ColoredText';
         //$this->inlineMarkerList .= '{';
-    }
+    }*/
 
     /**
      * This example adds a ColoredText element. You can find a description of this element at
@@ -61,9 +64,10 @@ class Parsedown extends \Parsedown
             return null;
         }
 
-        if (!isset($image['element']['attributes']['alt']) || empty($image['element']['attributes']['alt'])) {
+        if (empty($image['element']['attributes']['alt'])) {
             $image['element']['attributes']['alt'] = '';
         }
+
         $image['element']['attributes']['class'] = 'img mx-auto d-block img-responsive img-thumbnail';
 
         return $image;

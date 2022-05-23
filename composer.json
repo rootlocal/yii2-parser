@@ -9,7 +9,7 @@
     "HtmlPurifier",
     "Parsedown"
   ],
-  "homepage": "http://rootlocal.ru",
+  "homepage": "https://github.com/rootlocal/yii2-parser",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -19,17 +19,15 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.4|^8.0|^8.1",
     "yiisoft/yii2": "~2.0.0",
-    "yii2mod/yii2-markdown": "*",
-    "cebe/markdown": "~1.1.0",
-    "whichbrowser/parser": "^2.0",
-    "erusev/parsedown": "^1.7",
+    "yii2mod/yii2-markdown": "~1.1",
+    "cebe/markdown": "~1.2.1",
+    "whichbrowser/parser": "~2.1.7",
+    "erusev/parsedown": "^1.7.4",
     "xemlock/htmlpurifier-html5": "^0.1.11"
   },
   "require-dev": {
-    "yiisoft/yii2-codeception": "~2.0",
-    "codeclimate/php-test-reporter": "^0.4.4"
   },
   "autoload": {
     "psr-4": {
@@ -38,10 +36,6 @@
   },
   "extra": {
     "bootstrap": "rootlocal\\parser\\Bootstrap"
-  },
-  "asset-installer-paths": {
-    "npm-asset-library": "vendor/npm",
-    "bower-asset-library": "vendor/bower"
   },
   "repositories": [
     {

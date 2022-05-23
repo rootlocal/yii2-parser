@@ -6,6 +6,8 @@ use yii\base\BootstrapInterface;
 
 /**
  * Class Bootstrap
+ *
+ * @author Alexander Zakharov <sys@eml.ru>
  * @package rootlocal\parser
  */
 class Bootstrap implements BootstrapInterface

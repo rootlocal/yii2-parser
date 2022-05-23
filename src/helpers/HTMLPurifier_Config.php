@@ -2,6 +2,7 @@
 
 namespace rootlocal\parser\helpers;
 
+use HTMLPurifier_HTML5Config;
 use Yii;
 use HTMLPurifier_ConfigSchema;
 use HTMLPurifier_PropertyList;
@@ -12,40 +13,36 @@ use HTMLPurifier_PropertyList;
  *
  * @property HTMLPurifier_Config $instance
  */
-class HTMLPurifier_Config extends \HTMLPurifier_HTML5Config implements HTMLPurifier_ConfigInterface
+class HTMLPurifier_Config extends HTMLPurifier_HTML5Config implements HTMLPurifier_ConfigInterface
 {
-    /**
-     * @var self
-     */
-    private static $_instance;
+
 
     /**
-     * @param HTMLPurifier_ConfigSchema $definition
-     * @param HTMLPurifier_PropertyList $parent
+     * @param HTMLPurifier_ConfigSchema|null $definition
+     * @param HTMLPurifier_PropertyList|null $parent
      * @return HTMLPurifier_Config
      */
-    public static function getInstance($definition = null, $parent = null)
+    public static function getInstance(HTMLPurifier_ConfigSchema $definition = null, HTMLPurifier_PropertyList $parent = null): HTMLPurifier_Config
     {
-        if (empty($definition))
+        if (empty($definition)) {
             $definition = HTMLPurifier_ConfigSchema::instance();
+        }
 
-        self::$_instance = new self($definition, $parent);
-
-        return self::$_instance;
+         return new self($definition, $parent);
     }
 
     /**
-     * @return \HTMLPurifier_HTML5Config
+     * @return HTMLPurifier_HTML5Config
      */
-    public static function createDefault()
+    public static function createDefault(): HTMLPurifier_HTML5Config
     {
         return parent::createDefault();
     }
 
     /**
-     * @return \HTMLPurifier_Config
+     * @return HTMLPurifier_Config
      */
-    public function getDefaultConfig()
+    public function getDefaultConfig(): HTMLPurifier_Config
     {
         $this->set('HTML.Doctype', 'HTML 4.01 Transitional');
         //$this->set('Cache.DefinitionImpl', null);
@@ -67,9 +64,9 @@ class HTMLPurifier_Config extends \HTMLPurifier_HTML5Config implements HTMLPurif
     }
 
     /**
-     * @return \HTMLPurifier_Config
+     * @return HTMLPurifier_Config
      */
-    public function getFilterAllConfig()
+    public function getFilterAllConfig(): HTMLPurifier_Config
     {
         $config = $this->getDefaultConfig();
         $config->set('HTML.ForbiddenAttributes', ['style', 'border', 'cellspacing', 'cellpadding']);

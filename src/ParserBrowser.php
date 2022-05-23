@@ -8,31 +8,24 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class ParserBrowser
- * @package rootlocal\parser
  *
  * @property WhichBrowser $parser
+ *
+ * @author Alexander Zakharov <sys@eml.ru>
+ * @package rootlocal\parser
  */
 class ParserBrowser extends Component
 {
-    /**
-     * @var string
-     */
-    public $headers;
+    /** @var array|null */
+    public ?array $headers = null;
+    /** @var array */
+    public array $options = [];
 
-    /**
-     * @var array
-     */
-    public $options = [];
+    /** @var ParserBrowser|null */
+    private static ?ParserBrowser $_instance = null;
+    /** @var WhichBrowser|null */
+    private ?WhichBrowser $_parser = null;
 
-    /**
-     * @var ParserBrowser
-     */
-    private static $_instance;
-
-    /**
-     * @var WhichBrowser
-     */
-    private $_parser;
 
     /**
      * {@inheritdoc}
@@ -45,32 +38,29 @@ class ParserBrowser extends Component
             $this->headers = getallheaders(); // or $_SERVER['HTTP_USER_AGENT'];
         }
 
-        $defaultOptions = [
-            'detectBots' => true,
-        ];
-
+        $defaultOptions = ['detectBots' => true];
         $this->options = ArrayHelper::merge($defaultOptions, $this->options);
-
     }
 
     /**
      * @param array $config
      * @return ParserBrowser
      */
-    public static function getInstance($config = [])
+    public static function getInstance(array $config = []): ParserBrowser
     {
-        self::$_instance = new self($config);
+        if (self::$_instance === null) {
+            self::$_instance = new self($config);
+        }
+
         return self::$_instance;
     }
 
     /**
-     * @param  array|string $headers
-     * Optional, an array with all of the headers or a string with just the User-Agent header
-     * @param  array $options
-     * Optional, an array with configuration options
+     * @param array $headers  Optional, an array with all the headers or a string with just the User-Agent header
+     * @param array $options  Optional, an array with configuration options
      * @return WhichBrowser
      */
-    public function getParser($headers = null, $options = [])
+    public function getParser(array $headers = [], array $options = []): WhichBrowser
     {
         if (empty($headers)) {
             $headers = $this->headers;
@@ -80,8 +70,9 @@ class ParserBrowser extends Component
             $options = $this->options;
         }
 
-        if (empty($this->_parser))
+        if (empty($this->_parser)) {
             $this->_parser = WhichBrowser::getInstance($headers, $options);
+        }
 
         return $this->_parser;
     }

@@ -6,27 +6,22 @@ use WhichBrowser\Parser;
 
 /**
  * Class WhichBrowser
+ *
+ * @author Alexander Zakharov <sys@eml.ru>
  * @package rootlocal\parser
  */
 class WhichBrowser extends Parser
 {
 
-    /**
-     * @var WhichBrowser
-     */
-    private static $_instance;
 
     /**
-     * @param  array|string $headers
-     * Optional, an array with all of the headers or a string with just the User-Agent header
-     * @param  array $options
-     * Optional, an array with configuration options
+     * @param  array|string $headers Optional, an array with all the headers or a string with just the User-Agent header
+     * @param array $options Optional, an array with configuration options
      * @return WhichBrowser
      */
-    public static function getInstance($headers = null, $options = [])
+    public static function getInstance($headers = null, array $options = []): WhichBrowser
     {
-        self::$_instance = new self($headers, $options);
-        return self::$_instance;
+        return new self($headers, $options);
     }
 
 }

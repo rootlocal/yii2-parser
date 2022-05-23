@@ -7,12 +7,11 @@ use rootlocal\parser\helpers\Parsedown;
 use rootlocal\parser\helpers\HtmlPurifier;
 use rootlocal\parser\helpers\HTMLPurifier_Config;
 use yii\db\BaseActiveRecord;
-use rootlocal\parser\helpers\HTMLPurifier_ConfigInterface;
-use yii\di\Instance;
+
 
 /**
  * Class ParserBehavior
- * @package rootlocal\parser\behaviors
+ *
  *
  * ```php
  *  public function behaviors()
@@ -31,45 +30,23 @@ use yii\di\Instance;
  * @property Parsedown $parserMarkDown
  * @property HtmlPurifier $htmlPurifier
  * @property HTMLPurifier_Config $htmlPurifierConfig
+ *
+ * @author Alexander Zakharov <sys@eml.ru>
+ * @package rootlocal\parser\behaviors
  */
 class ParserBehavior extends AttributeBehavior
 {
-    /**
-     * @var array attributes
-     */
+    /** @var array attributes */
     public $attributes = [];
-
-    /**
-     * @var string
-     */
-    public $srcAtAttribute = 'content';
-
-    /**
-     * @var string
-     */
-    public $dstAtAttribute = 'content_html';
-
-    /**
-     * @var Parsedown
-     */
-    private $_parserMarkDown;
-
-    /**
-     * @var HtmlPurifier
-     */
-    private $_htmlPurifier;
-
-    /**
-     * @var HTMLPurifier_Config
-     */
-    private $_htmlPurifierConfig;
-
+    /** @var string */
+    public string $srcAtAttribute = 'content';
+    /** @var string */
+    public string $dstAtAttribute = 'content_html';
     /**
      * @var string
      * @example  default filterAll
      */
-    public $templateConfig = 'default';
-
+    public string $templateConfig = 'default';
     /**
      * {@inheritdoc}
      *
@@ -78,6 +55,14 @@ class ParserBehavior extends AttributeBehavior
      * will be used as value.
      */
     public $value;
+
+    /** @var Parsedown|null */
+    private ?Parsedown $_parserMarkDown = null;
+    /** @var HtmlPurifier|null */
+    private ?HtmlPurifier $_htmlPurifier =null;
+    /** @var HTMLPurifier_Config|null */
+    private ?HTMLPurifier_Config $_htmlPurifierConfig =null;
+
 
 
     /**
@@ -117,7 +102,7 @@ class ParserBehavior extends AttributeBehavior
      * attached to the owner; and they will be detached from the events when
      * the behavior is detached from the component.
      **/
-    public function events()
+    public function events(): array
     {
         return [
             BaseActiveRecord::EVENT_BEFORE_INSERT => 'parseEvent',
@@ -133,15 +118,19 @@ class ParserBehavior extends AttributeBehavior
         /* @var $owner BaseActiveRecord */
         $owner = $this->owner;
         $markDown = $owner->{$this->srcAtAttribute};
-        $html = $this->parse_markDown($markDown);
-        $owner->{$this->dstAtAttribute} = $this->process($html);
+
+        if (!empty($markDown)) {
+            $html = $this->parse_markDown($markDown);
+            $owner->{$this->dstAtAttribute} = $this->process($html);
+        }
+
     }
 
 
     /**
      * @return Parsedown
      */
-    public function getParserMarkDown()
+    public function getParserMarkDown(): Parsedown
     {
         if (empty($this->_parserMarkDown)) {
             $this->_parserMarkDown = Parsedown::instance()
@@ -155,7 +144,7 @@ class ParserBehavior extends AttributeBehavior
     /**
      * @return HtmlPurifier
      */
-    public function getHtmlPurifier()
+    public function getHtmlPurifier(): HtmlPurifier
     {
         if (empty($this->_htmlPurifier)) {
             $this->_htmlPurifier = new HtmlPurifier();
@@ -167,15 +156,18 @@ class ParserBehavior extends AttributeBehavior
     /**
      * @return HTMLPurifier_Config
      */
-    public function getHtmlPurifierConfig()
+    public function getHtmlPurifierConfig(): HTMLPurifier_Config
     {
         if (empty($this->_htmlPurifierConfig)) {
             $config = HTMLPurifier_Config::getInstance();
 
-            if ($this->templateConfig === 'default' || empty($this->templateConfig))
+            if ($this->templateConfig === 'default' || empty($this->templateConfig)) {
                 $this->_htmlPurifierConfig = $config->getDefaultConfig();
-            if ($this->templateConfig === 'filterAll')
+            }
+
+            if ($this->templateConfig === 'filterAll') {
                 $this->_htmlPurifierConfig = $config->getFilterAllConfig();
+            }
         }
 
         return $this->_htmlPurifierConfig;
@@ -184,7 +176,7 @@ class ParserBehavior extends AttributeBehavior
     /**
      * @param HTMLPurifier_Config $config
      */
-    public function setHtmlPurifierConfig($config)
+    public function setHtmlPurifierConfig(HTMLPurifier_Config $config)
     {
         $this->_htmlPurifierConfig = $config;
     }
@@ -193,7 +185,7 @@ class ParserBehavior extends AttributeBehavior
      * @param $text string
      * @return string
      */
-    protected function parse_markDown($text)
+    protected function parse_markDown(string $text): string
     {
         return $this->getParserMarkDown()->text($text);
     }
@@ -202,7 +194,7 @@ class ParserBehavior extends AttributeBehavior
      * @param $html string
      * @return string
      */
-    protected function process($html)
+    protected function process(string $html): string
     {
         return $this->getHtmlPurifier()::process($html, $this->getHtmlPurifierConfig());
     }
