@@ -61,7 +61,7 @@ class ParserBehavior extends AttributeBehavior
     /** @var HtmlPurifier|null */
     private ?HtmlPurifier $_htmlPurifier =null;
     /** @var HTMLPurifier_Config|null */
-    private ?HTMLPurifier_Config $_htmlPurifierConfig =null;
+    private $_htmlPurifierConfig;
 
 
 
@@ -156,7 +156,7 @@ class ParserBehavior extends AttributeBehavior
     /**
      * @return HTMLPurifier_Config
      */
-    public function getHtmlPurifierConfig(): HTMLPurifier_Config
+    public function getHtmlPurifierConfig()
     {
         if (empty($this->_htmlPurifierConfig)) {
             $config = HTMLPurifier_Config::getInstance();
